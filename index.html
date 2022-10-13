@@ -4,34 +4,70 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>My First Pixie Project</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        <script src="/js/pixi.min.js" async defer></script>
-        <script>
-            let app
 
-            window.onload = function() {
-                app = new PIXI.Application(
-                    {
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My First Pixie Project</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="js/pixi.min.js"></script>
+    <script>
+
+        let app;
+        let player;
+
+        window.onload = function () {
+            app = new PIXI.Application(
+                {
                     width: 800,
                     height: 600,
                     backgroundColor: 0x1F1E1F
-                    }
-                )
+                }
+            )
 
-                document.body.appendChild(app.view);
-            };
-        </script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
+            // Music and Sound
+            PIXI.sound.Sound.from({
+                url: 'sound/music/theme.wav',
+                autoPlay: true,
+                complete: function () {
+                    console.log("Played sound")
+                }
+            });
+
+            // Adding canvas to dom
+            document.body.appendChild(app.view);
+
+            // Player object
+            player = PIXI.Sprite.from("images/Player.png");
+            player.anchor.set(0.5)
+            player.x = app.view.width / 2;
+            player.y = app.view.height / 2;
+            app.stage.addChild(player);
+
+            // Mouse Commands
+            app.stage.interactive = true;
+            app.stage.on("pointermove", movePlayer);
+
+
+        };
+
+        function movePlayer(e) {
+            let pos = e.data.global;
+            player.x = pos.x;
+            player.y = pos.y;
+        };
+
+
+    </script>
+</head>
+
+<body>
+    <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        
-    </body>
+
+</body>
+
 </html>
