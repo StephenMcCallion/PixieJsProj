@@ -33,23 +33,42 @@
             // Adding canvas to dom
             document.body.appendChild(app.view);
 
-            // Player object
-            player = PIXI.Sprite.from("images/Player.png");
-            player.anchor.set(0.5)
-            player.x = app.view.width / 2;
-            player.y = app.view.height / 2;
-            app.stage.addChild(player);
+            // // Player object
+            // player = PIXI.Sprite.from("images/Player.png");
+            // player.anchor.set(0.5)
+            // player.x = app.view.width / 2;
+            // player.y = app.view.height / 2;
+            // app.stage.addChild(player);
 
-            // Mouse Commands
-            app.stage.interactive = true;
-            app.stage.on("pointermove", movePlayer);
+            // // Mouse Commands
+            // app.stage.interactive = true;
+            // app.stage.on("pointermove", movePlayer);
 
-            // Keyboard Event handlers
-            window.addEventListener("keydown", keysDown);
-            window.addEventListener("keyup", keysUp);
+            // // Keyboard Event handlers
+            // window.addEventListener("keydown", keysDown);
+            // window.addEventListener("keyup", keysUp);
 
-            app.ticker.add(gameLoop);
-            keysDiv = document.querySelector("#keys");
+            // app.ticker.add(gameLoop);
+            // keysDiv = document.querySelector("#keys");
+
+            // Preload assets
+            app.loader.add("enemy01", "/images/bolt01.png")
+                .add("enemy02", "images/bolt02.png")
+                .add("enemy03", "images/bolt03.png")
+                .add("enemy04", "images/bolt04.png")
+                .add("enemy05", "images/bolt05.png")
+                .add("enemy06", "images/bolt06.png")
+                .add("enemy07", "images/bolt07.png")
+                .add("enemy08", "images/bolt08.png")
+                .add("enemy09", "images/bolt09.png")
+                .add("enemy10", "images/bolt10.png")
+                .add("enemy10", "images/bolt10.png")
+
+            app.loader.onProgress.add(showProgress);
+            app.loader.onComplete.add(doneLoading);
+            app.loader.onError.add(reportError);
+
+            app.loader.load();
         };
 
         function gameLoop() {
@@ -71,7 +90,18 @@
             if (keys["68"]) {
                 player.x += 5;
             }
+        }
 
+        function showProgress(e) {
+            console.log(e.progress);
+        }
+
+        function reportError(e) {
+            console.log("Error " + e.messege)
+        }
+
+        function doneLoading(e) {
+            console.log("Done Loading")
         }
 
         function keysDown(e) {
